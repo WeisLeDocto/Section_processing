@@ -56,10 +56,12 @@ if __name__ == '__main__':
 
     # Detecting the continuous areas and removing the smaller ones
     labels = measure.label(img, background=0, connectivity=2)
+    del img
 
     labels = morphology.remove_small_objects(labels, min_size=20000,
                                              connectivity=2)
     label_props = measure.regionprops(labels)
+    del labels
 
     # Workaround to get the number of labels
     k = 0
@@ -90,6 +92,9 @@ if __name__ == '__main__':
       # If the user's ok, adding the image to the list of valid ones
       if ret:
         valid_images[img_path].append(label)
+
+    del label_props
+    collect()
 
   img_nr = tk.IntVar(value=1)
   chosen_images = {path: [] for path in images}
@@ -138,6 +143,8 @@ if __name__ == '__main__':
 
         # Storing the paths to the chosen images
         chosen_images[img_path].append(side[img_nr.get() - 1])
+
+    collect()
 
   # Updating the progress bar
   nb_tile = 4
