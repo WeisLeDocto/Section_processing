@@ -2,7 +2,6 @@
 
 import numpy as np
 from PIL import Image
-import cv2
 from skimage import measure, segmentation
 import tkinter as tk
 from pathlib import Path
@@ -10,7 +9,7 @@ from xlsxwriter import Workbook
 from sys import exit
 from gc import collect
 
-from tools import Progress_window, select_folder, detect_section
+from tools import Progress_window, select_folder, detect_section, process_image
 
 if __name__ == '__main__':
 
@@ -75,27 +74,31 @@ if __name__ == '__main__':
           progress.update()
 
           # Opening the subsection
-          img = np.array(Image.open(image_path))
+          img = Image.open(image_path)
+          img_npy = np.array(img)
 
-          # Counting the overall area
-          overall_area += np.count_nonzero(detect_section(img))
-
-          # Processing the image to isolate the blood vessels
-          img[img == 0] = 1
-          mask = ((img[:, :, 2] / img[:, :, 0] <= 0.85) * 255).astype('uint8')
-          mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, np.ones((10, 10)))
-          mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, np.ones((5, 5)))
+          # Detecting the blood vessels
+          detected = process_image(img)
+          del img
 
           # Detecting each blood vessel and saving the outlined image
-          labels = measure.label(mask, background=0, connectivity=2)
-          image_outline = segmentation.mark_boundaries(img[:, :, :3], labels,
-                                                       color=(0, 1, 0))
+          labels = measure.label(detected, background=0, connectivity=2)
+          del detected
+          image_outline = segmentation.mark_boundaries(img_npy[:, :, :3],
+                                                       labels, color=(0, 1, 0))
+
+          # Counting the overall area
+          overall_area += np.count_nonzero(detect_section(img_npy))
+          del img_npy
+
           image_outline = (255 * image_outline).astype('uint8')
           Image.fromarray(image_outline).save(side_fold / 'Processed_images' /
                                               image_path.name)
+          del image_outline
 
           # Calculating the vessels properties and storing them in the Excel
           label_props = measure.regionprops(labels)
+          del labels
           for prop in label_props:
             worksheet.write(index, 0, index)
             worksheet.write(index, 1, prop.axis_minor_length)

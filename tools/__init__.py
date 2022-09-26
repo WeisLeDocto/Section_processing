@@ -5,3 +5,4 @@ from .folder_selection import select_folder
 from .detect_section import detect_section
 from .image_choice import Image_choice_window
 from .slide_tools import get_thumbnail, get_image, get_portion
+from .processing_tools import process_image
