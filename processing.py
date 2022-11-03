@@ -77,20 +77,17 @@ if __name__ == '__main__':
           img = Image.open(image_path)
           img_npy = np.array(img)
 
-          # Detecting the blood vessels
-          detected = process_image(img)
-          del img
-
-          # Detecting each blood vessel and saving the outlined image
-          labels = measure.label(detected, background=0, connectivity=2)
-          del detected
-          image_outline = segmentation.mark_boundaries(img_npy[:, :, :3],
-                                                       labels, color=(0, 1, 0))
-
           # Counting the overall area
           overall_area += np.count_nonzero(detect_section(img_npy))
-          del img_npy
 
+          # Detecting the blood vessels
+          labels = process_image(img)
+          del img
+
+          # Saving the outline image
+          image_outline = segmentation.mark_boundaries(img_npy[:, :, :3],
+                                                       labels, color=(0, 1, 0))
+          del img_npy
           image_outline = (255 * image_outline).astype('uint8')
           Image.fromarray(image_outline).save(side_fold / 'Processed_images' /
                                               image_path.name)

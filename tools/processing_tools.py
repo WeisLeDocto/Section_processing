@@ -41,10 +41,7 @@ def _get_base_mask(image: Image) -> np.ndarray:
 def _reindex_labels(base_label: np.ndarray,
                     interest: np.ndarray) -> np.ndarray:
   """Reindex the labels of a labeled image based on a given set of labels to
-  keep.
-
-
-  """
+  keep."""
 
   # Creating the list of 
   new_index = np.arange(1, base_label.shape[0] + 1)
@@ -138,4 +135,7 @@ def process_image(img: Image) -> np.ndarray:
   del valid_obj
 
   # Generating the final uint8 image with all valid objects
-  return ((labels > 0) * 255).astype('uint8')
+  detected = ((labels > 0) * 255).astype('uint8')
+
+  # Detecting each blood vessel
+  return measure.label(detected, background=0, connectivity=2)
