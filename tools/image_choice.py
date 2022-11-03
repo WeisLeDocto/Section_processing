@@ -48,7 +48,7 @@ class Image_choice_window(tk.Toplevel):
     # Displaying the images to choose from
     fig = plt.figure()
     for n, side_img in enumerate(side_images):
-      fig.add_subplot(3, 1, n + 1)
+      fig.add_subplot(len(side_images), 1, n + 1)
       plt.imshow(side_img)
       plt.ylabel(f'Image {n + 1}')
     plt.show(block=False)
