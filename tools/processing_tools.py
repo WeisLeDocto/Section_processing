@@ -58,8 +58,23 @@ def _reindex_labels(base_label: np.ndarray,
   return util.map_array(base_label, interest, new_index).astype('int64')
 
 
-def process_image(img: Image) -> np.ndarray:
-  """"""
+def process_vessels(img: Image) -> np.ndarray:
+  """Processes the given image in order to detect blood vessels on it.
+
+  First, noise is reduced using opening and closing operations. Then, a first
+  processing for detecting the biggest vessels is applied. The vessels are
+  dilated, and the ones that have a hole inside are kept. They're then filled
+  up, and eroded back to their original size. Another detection is then applied
+  on the original image to detect the small vessels. Only the vessels bigger
+  than a given threshold are kept. Finally, the masks containing the detected
+  small and big vessels are merged, and a final mask is returned.
+
+  Args:
+    img: The image to process, containing the stained blood vessels.
+
+  Returns:
+    An image on which each detected vessel is assigned a different pixel value.
+  """
 
   # Getting the base mask
   mask = _get_base_mask(img)
