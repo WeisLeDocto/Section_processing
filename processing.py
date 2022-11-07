@@ -183,7 +183,7 @@ if __name__ == '__main__':
               del img
 
               # Extracting only the channel of interest
-              chan = img_npy[:, :, 2]
+              chan = img_npy[:, :, 0]
               del img_npy
 
               # Improving the contrast
@@ -191,21 +191,26 @@ if __name__ == '__main__':
               chan = np.clip((chan - lower) / (upper - lower) * 255, 0,
                              255).astype('uint8')
 
-              # Reducing the noise and extracting the stained area
-              chan = cv2.morphologyEx(chan, cv2.MORPH_CLOSE, np.ones((5, 5)))
-              stained = ((chan < 210) * 255).astype('uint8')
+              # Extracting the stained area
+              stained = ((chan < 150) * 255).astype('uint8')
               del chan
 
             # Counting the stained area
             stained_area += np.count_nonzero(stained)
 
-            # Marking the detected areas as black
+            # Marking the detected areas as black for MvG
             if choice.get() == 'MvG':
               image_stained = np.stack((255 - stained,
                                         255 - stained,
                                         255 - stained), axis=2)
 
-            # Either Alcian blue, MSB, Laminin, S100, marking detected as blue
+            # Either Laminin or S100, marking the detected area as red
+            elif choice.get() in ('Laminin', 'S100'):
+              image_stained = np.stack(
+                (np.full(stained.shape, 255).astype('uint8'), 255 - stained,
+                 255 - stained), axis=2)
+
+            # Either Alcian blue or MSB, marking the detected area as blue
             else:
               image_stained = np.stack(
                 (255 - stained, 255 - stained,
