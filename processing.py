@@ -164,10 +164,7 @@ if __name__ == '__main__':
                                   0, 255).astype('uint8')
 
               # Counting the stained area
-              if choice.get() == 'Alcian blue':
-                stained = ((blue_chan < 200) * 255).astype('uint8')
-              else:
-                stained = ((blue_chan < 100) * 255).astype('uint8')
+              stained = ((blue_chan < 150) * 255).astype('uint8')
               del blue_chan
 
             # Processing on the R, G and B channels
