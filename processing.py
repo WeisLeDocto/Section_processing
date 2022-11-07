@@ -51,6 +51,9 @@ if __name__ == '__main__':
 
   # Iterating over all the folders
   for fold in folders:
+
+    print(f"Now processing the section : {fold.stem}")
+
     # iterating over all the sub-folders containing .png images
     for side_fold in [dir_ for dir_ in fold.iterdir() if dir_.is_dir()
                       and list(dir_.rglob('*.png'))]:

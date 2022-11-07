@@ -41,6 +41,8 @@ if __name__ == '__main__':
   # First, iterating through the images to keep only the valid ones
   for i, img_path in enumerate(images):
 
+    print(f"Now displaying the section : {img_path.stem}")
+
     # Updating the progress bar
     progress_window.top_progress.set(int(100 * i / len(images)))
     progress_window.update()
@@ -102,6 +104,8 @@ if __name__ == '__main__':
   # Iterating over the replicates of a same section to pick only one
   for i, img_path in enumerate(images):
 
+    print(f"Now displaying the section : {img_path.stem}")
+
     # Updating the progress bar
     progress_window.top_progress.set(int(100 * i / len(images)))
     progress_window.update()
@@ -157,6 +161,8 @@ if __name__ == '__main__':
 
   # Iterating over all the images
   for img_path in images:
+
+    print(f"Now saving the section : {img_path.stem}")
 
     # Opening the image
     slide = OpenSlide(img_path)
