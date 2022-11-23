@@ -1,13 +1,13 @@
 # coding: utf-8
 
 from openslide import OpenSlide
-import numpy as np
+from PIL import Image
 
 
 def get_image(ndpi_slide: OpenSlide,
               img_label,
               thumb_factor: int,
-              max_pix: int) -> np.ndarray:
+              max_pix: int) -> Image:
   """Function that takes a zone of the slide as an input, and returns the same
   zone in a different zoom factor.
 
@@ -47,7 +47,7 @@ def get_portion(ndpi_slide: OpenSlide,
                 thumb_factor: int,
                 n_slices: int,
                 x_id: int,
-                y_id: int) -> np.ndarray:
+                y_id: int) -> Image:
   """Function that takes a zone of a slide as an input, and returns a
   subsection of this zone in the 0 zoom level.
 
