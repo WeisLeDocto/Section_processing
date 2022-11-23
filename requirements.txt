@@ -5,3 +5,4 @@ scikit-image
 Pillow
 XlsxWriter
 openpyxl
+openslide-python
