@@ -1,7 +1,15 @@
 # coding: utf-8
 
-from openslide import OpenSlide
 from PIL import Image
+# Python >= 3.8 on Windows
+import os
+from pathlib import Path
+if hasattr(os, 'add_dll_directory'):
+  with os.add_dll_directory(str(Path(__file__).parent.parent /
+                                'openslide-win64' / 'bin')):
+    from openslide import OpenSlide
+else:
+  from openslide import OpenSlide
 
 
 def get_image(ndpi_slide: OpenSlide,

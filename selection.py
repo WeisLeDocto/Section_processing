@@ -1,6 +1,15 @@
 # coding: utf-8
 
-from openslide import OpenSlide
+# Python >= 3.8 on Windows
+import os
+from pathlib import Path
+if hasattr(os, 'add_dll_directory'):
+  with os.add_dll_directory(str(Path(__file__).parent /
+                                'openslide-win64' / 'bin')):
+    from openslide import OpenSlide
+else:
+  from openslide import OpenSlide
+
 from pathlib import Path
 import numpy as np
 from matplotlib import pyplot as plt
@@ -13,7 +22,6 @@ from gc import collect
 
 from tools import Progress_window, detect_section, select_folder, \
   Image_choice_window, get_image, get_portion, get_thumbnail
-
 
 if __name__ == '__main__':
 
