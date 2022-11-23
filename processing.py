@@ -2,7 +2,6 @@
 
 import numpy as np
 from PIL import Image
-import cv2
 from skimage import measure, segmentation
 import tkinter as tk
 from pathlib import Path
@@ -161,13 +160,15 @@ if __name__ == '__main__':
               # Improving the contrast on the detection of the staining
               blue_chan = img_npy[:, :, 0]
               del img_npy
-              upper = np.percentile(blue_chan, 50)
-              lower = np.percentile(blue_chan, 0.5)
-              blue_chan = np.clip((blue_chan - lower) / (upper - lower) * 255,
-                                  0, 255).astype('uint8')
+              if choice.get() == 'MSB':
+                upper, lower = 233, 79
+              else:
+                upper, lower = 221, 92
+              blue_chan = ((np.clip(blue_chan, lower, upper) - lower) /
+                           (upper - lower) * 255).astype('uint8')
 
               # Counting the stained area
-              stained = ((blue_chan < 150) * 255).astype('uint8')
+              stained = ((blue_chan < 160) * 255).astype('uint8')
               del blue_chan
 
             # Processing on the R, G and B channels
@@ -186,16 +187,16 @@ if __name__ == '__main__':
               del img
 
               # Extracting only the channel of interest
-              chan = img_npy[:, :, 0]
+              chan = img_npy[:, :, 2]
               del img_npy
 
               # Improving the contrast
-              upper, lower = np.percentile(chan, 50), np.percentile(chan, 0.5)
-              chan = np.clip((chan - lower) / (upper - lower) * 255, 0,
-                             255).astype('uint8')
+              upper, lower = 145, 130
+              chan = ((np.clip(chan, lower, upper) - lower) /
+                      (upper - lower) * 255).astype('uint8')
 
               # Extracting the stained area
-              stained = ((chan < 150) * 255).astype('uint8')
+              stained = ((chan > 120) * 255).astype('uint8')
               del chan
 
             # Counting the stained area
