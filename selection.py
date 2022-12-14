@@ -68,7 +68,7 @@ if __name__ == '__main__':
     labels = measure.label(img, background=0, connectivity=2)
     del img
 
-    labels = morphology.remove_small_objects(labels, min_size=20000,
+    labels = morphology.remove_small_objects(labels, min_size=10000,
                                              connectivity=2)
     label_props = measure.regionprops(labels)
     del labels
