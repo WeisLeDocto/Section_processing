@@ -60,5 +60,5 @@ class Image_choice_window(tk.Toplevel):
     """Sets the IntVar of the main script, then closes the images and exits."""
 
     self._nr_container.set(self._choice.get())
-    plt.close('all')
+    plt.close(2)
     self.destroy()

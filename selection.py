@@ -60,6 +60,9 @@ if __name__ == '__main__':
     # Getting the thumbnail in a reasonably small size (<4000px)
     thumb_size, factor_thumb = get_thumbnail(slide, 4000)
     img = np.array(slide.get_thumbnail((thumb_size, thumb_size)))
+    plt.figure()
+    plt.imshow(img)
+    plt.show(block=False)
 
     # Converting to gray, thresholding, blurring, smoothening and inverting
     img = detect_section(img)
@@ -91,13 +94,14 @@ if __name__ == '__main__':
       progress_window.update()
 
       # Displaying the detected area
+      plt.figure()
       plt.imshow(get_image(slide, label, factor_thumb, 10000))
       plt.show(block=False)
 
       # Asking the user
       ret = messagebox.askyesno('Image validity',
                                 'Is the displayed image valid ?')
-      plt.close('all')
+      plt.close(2)
 
       # If the user's ok, adding the image to the list of valid ones
       if ret:
