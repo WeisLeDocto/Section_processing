@@ -168,14 +168,14 @@ if __name__ == '__main__':
                            (upper - lower) * 255).astype('uint8')
 
               # Counting the stained area
-              stained = ((blue_chan < 160) * 255).astype('uint8')
+              stained = ((blue_chan < 180) * 255).astype('uint8')
               del blue_chan
 
             # Processing on the R, G and B channels
             elif choice.get() == 'MvG':
-              stained = (((img_npy[:, :, 0] < 150) &
-                          (img_npy[:, :, 1] < 150) &
-                          (img_npy[:, :, 2] < 150)) * 255).astype('uint8')
+              stained = (((img_npy[:, :, 0] < 170) &
+                          (img_npy[:, :, 1] < 170) &
+                          (img_npy[:, :, 2] < 170)) * 255).astype('uint8')
 
             # Either Laminin or S100, processing the Cr channel
             else:
