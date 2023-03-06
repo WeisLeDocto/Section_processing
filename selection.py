@@ -139,9 +139,9 @@ if __name__ == '__main__':
     left, center, right = [], [], []
     for label in labels:
       _, x = label.centroid
-      if x < 1000:
+      if x < img.shape[1] / 3:
         left.append(label)
-      elif x > 2300:
+      elif x > 2 * img.shape[1] / 3:
         right.append(label)
       else:
         center.append(label)
