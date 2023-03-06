@@ -60,7 +60,7 @@ if __name__ == '__main__':
     # Getting the thumbnail in a reasonably small size (<4000px)
     thumb_size, factor_thumb = get_thumbnail(slide, 4000)
     img = np.array(slide.get_thumbnail((thumb_size, thumb_size)))
-    plt.figure()
+    plt.figure(0)
     plt.imshow(img)
     plt.show(block=False)
 
@@ -94,19 +94,20 @@ if __name__ == '__main__':
       progress_window.update()
 
       # Displaying the detected area
-      plt.figure()
+      plt.figure(1)
       plt.imshow(get_image(slide, label, factor_thumb, 10000))
       plt.show(block=False)
 
       # Asking the user
       ret = messagebox.askyesno('Image validity',
                                 'Is the displayed image valid ?')
-      plt.close(2)
+      plt.close(1)
 
       # If the user's ok, adding the image to the list of valid ones
       if ret:
         valid_images[img_path].append(label)
 
+    plt.close('all')
     del label_props
     collect()
 
@@ -127,7 +128,12 @@ if __name__ == '__main__':
     labels = valid_images[img_path]
 
     # Getting the thumbnail in a reasonably small size (<4000px)
-    _, factor_thumb = get_thumbnail(slide, 4000)
+    thumb_size, factor_thumb = get_thumbnail(slide, 4000)
+
+    img = np.array(slide.get_thumbnail((thumb_size, thumb_size)))
+    plt.figure(0)
+    plt.imshow(img)
+    plt.show(block=False)
 
     # Sorting the labels according to their x position
     left, center, right = [], [], []
@@ -160,6 +166,7 @@ if __name__ == '__main__':
         # Storing the paths to the chosen images
         chosen_images[img_path].append(side[img_nr.get() - 1])
 
+    plt.close(0)
     collect()
 
   # Updating the progress bar

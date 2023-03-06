@@ -46,7 +46,7 @@ class Image_choice_window(tk.Toplevel):
     self.resizable = (False, False)
 
     # Displaying the images to choose from
-    fig = plt.figure()
+    fig = plt.figure(1)
     for n, side_img in enumerate(side_images):
       fig.add_subplot(len(side_images), 1, n + 1)
       plt.imshow(side_img)
@@ -60,5 +60,5 @@ class Image_choice_window(tk.Toplevel):
     """Sets the IntVar of the main script, then closes the images and exits."""
 
     self._nr_container.set(self._choice.get())
-    plt.close(2)
+    plt.close(1)
     self.destroy()
